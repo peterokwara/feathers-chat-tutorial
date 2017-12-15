@@ -9,6 +9,20 @@ client.configure(feathers.socketio(socket));
 // Get the service for our message endpoint
 const messages = client.service('messages');
 
+// Authentication
+client.configure(feathers.authentication({
+    storage: window.localStorage
+  }));
+  
+client.authenticate({
+    strategy: 'local',
+    email: 'feathers@example.com',
+    password: 'secret'
+}).then(token => {
+    console.log('User is logged in');
+});
+  
+
 // Add a new message to the list
 function addMessage(message){
     const chat = document.querySelector('.chat');
