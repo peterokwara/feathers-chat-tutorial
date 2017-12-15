@@ -9,7 +9,7 @@ client.configure(feathers.socketio(socket));
 // Get the service for our message endpoint
 const messages = client.service('messages');
 
-// Authentication
+//Configure Authentication
 client.configure(feathers.authentication({
     storage: window.localStorage
   }));
@@ -20,6 +20,11 @@ client.authenticate({
     password: 'secret'
 }).then(token => {
     console.log('User is logged in');
+
+    // At this point we have a valid token, so we can fetch restricted data
+    messages.find().then(page => page.data.forEach(addMessage));
+    messages.on('created', addMessage);
+    
 });
   
 
@@ -38,9 +43,6 @@ function addMessage(message){
   </div>`);
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
 };
-
-messages.find().then(page => page.data.forEach(addMessage));
-messages.on('created', addMessage);
 
 document.getElementById('send-message').addEventListener('submit', function(ev){
     const nameInput = document.querySelector('[name="text"]');
