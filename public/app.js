@@ -18,4 +18,4 @@ messages.create({
     text: 'Hello world!'
 });
 
-message.find().then(page => console.log('Current messages are', page));
+messages.find().then(page => console.log('Current messages are', page));
