@@ -17,3 +17,5 @@ messages.create({
     name:'Test user',
     text: 'Hello world!'
 });
+
+message.find().then(page => console.log('Current messages are', page));
